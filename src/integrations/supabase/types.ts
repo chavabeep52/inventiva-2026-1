@@ -14,16 +14,309 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_logs: {
+        Row: {
+          accion: string
+          created_at: string
+          descripcion: string | null
+          id: string
+          metadata: Json | null
+          registro_id: string | null
+          tabla_afectada: string | null
+          usuario_id: string | null
+        }
+        Insert: {
+          accion: string
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          metadata?: Json | null
+          registro_id?: string | null
+          tabla_afectada?: string | null
+          usuario_id?: string | null
+        }
+        Update: {
+          accion?: string
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          metadata?: Json | null
+          registro_id?: string | null
+          tabla_afectada?: string | null
+          usuario_id?: string | null
+        }
+        Relationships: []
+      }
+      configuracion: {
+        Row: {
+          dia_activo_id: string | null
+          id: string
+          nombre_evento: string
+          periodo: string
+          titulo_pestana: string
+          updated_at: string
+          votacion_abierta: boolean
+        }
+        Insert: {
+          dia_activo_id?: string | null
+          id?: string
+          nombre_evento?: string
+          periodo?: string
+          titulo_pestana?: string
+          updated_at?: string
+          votacion_abierta?: boolean
+        }
+        Update: {
+          dia_activo_id?: string | null
+          id?: string
+          nombre_evento?: string
+          periodo?: string
+          titulo_pestana?: string
+          updated_at?: string
+          votacion_abierta?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "configuracion_dia_activo_id_fkey"
+            columns: ["dia_activo_id"]
+            isOneToOne: false
+            referencedRelation: "event_days"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_days: {
+        Row: {
+          created_at: string
+          fecha: string
+          id: string
+          nombre: string
+          orden: number
+        }
+        Insert: {
+          created_at?: string
+          fecha: string
+          id?: string
+          nombre: string
+          orden: number
+        }
+        Update: {
+          created_at?: string
+          fecha?: string
+          id?: string
+          nombre?: string
+          orden?: number
+        }
+        Relationships: []
+      }
+      pregrados: {
+        Row: {
+          created_at: string
+          id: string
+          nombre: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nombre: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nombre?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      proyectos: {
+        Row: {
+          correo_representante: string
+          creado_por: string | null
+          created_at: string
+          descripcion: string
+          estado: Database["public"]["Enums"]["proyecto_estado"]
+          event_day_id: string
+          id: string
+          nombre: string
+          numero_integrantes: number
+          pregrado_id: string
+          telefono_representante: string
+          updated_at: string
+        }
+        Insert: {
+          correo_representante: string
+          creado_por?: string | null
+          created_at?: string
+          descripcion: string
+          estado?: Database["public"]["Enums"]["proyecto_estado"]
+          event_day_id: string
+          id?: string
+          nombre: string
+          numero_integrantes: number
+          pregrado_id: string
+          telefono_representante: string
+          updated_at?: string
+        }
+        Update: {
+          correo_representante?: string
+          creado_por?: string | null
+          created_at?: string
+          descripcion?: string
+          estado?: Database["public"]["Enums"]["proyecto_estado"]
+          event_day_id?: string
+          id?: string
+          nombre?: string
+          numero_integrantes?: number
+          pregrado_id?: string
+          telefono_representante?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proyectos_event_day_id_fkey"
+            columns: ["event_day_id"]
+            isOneToOne: false
+            referencedRelation: "event_days"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proyectos_pregrado_id_fkey"
+            columns: ["pregrado_id"]
+            isOneToOne: false
+            referencedRelation: "pregrados"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      votos: {
+        Row: {
+          created_at: string
+          estado: Database["public"]["Enums"]["voto_estado"]
+          event_day_id: string
+          id: string
+          nombre_votante: string
+          nombre_votante_norm: string | null
+          observacion: string | null
+          pregrado_id: string
+          proyecto_id: string
+          registrado_por: string | null
+          tipo_votante: Database["public"]["Enums"]["tipo_votante"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          estado?: Database["public"]["Enums"]["voto_estado"]
+          event_day_id: string
+          id?: string
+          nombre_votante: string
+          nombre_votante_norm?: string | null
+          observacion?: string | null
+          pregrado_id: string
+          proyecto_id: string
+          registrado_por?: string | null
+          tipo_votante: Database["public"]["Enums"]["tipo_votante"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          estado?: Database["public"]["Enums"]["voto_estado"]
+          event_day_id?: string
+          id?: string
+          nombre_votante?: string
+          nombre_votante_norm?: string | null
+          observacion?: string | null
+          pregrado_id?: string
+          proyecto_id?: string
+          registrado_por?: string | null
+          tipo_votante?: Database["public"]["Enums"]["tipo_votante"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votos_event_day_id_fkey"
+            columns: ["event_day_id"]
+            isOneToOne: false
+            referencedRelation: "event_days"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votos_pregrado_id_fkey"
+            columns: ["pregrado_id"]
+            isOneToOne: false
+            referencedRelation: "pregrados"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votos_proyecto_id_fkey"
+            columns: ["proyecto_id"]
+            isOneToOne: false
+            referencedRelation: "proyectos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      can_vote: { Args: { _user_id: string }; Returns: boolean }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_organizer_or_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "operator" | "organizer" | "admin" | "public_viewer"
+      proyecto_estado: "habilitado" | "deshabilitado"
+      tipo_votante: "popular" | "profesor" | "jurado"
+      voto_estado: "valido" | "anulado"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +443,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["operator", "organizer", "admin", "public_viewer"],
+      proyecto_estado: ["habilitado", "deshabilitado"],
+      tipo_votante: ["popular", "profesor", "jurado"],
+      voto_estado: ["valido", "anulado"],
+    },
   },
 } as const
