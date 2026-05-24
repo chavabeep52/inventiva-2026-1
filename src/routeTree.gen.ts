@@ -9,38 +9,149 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppResultadosRouteImport } from './routes/_app/resultados'
+import { Route as AppRegistrarVotoRouteImport } from './routes/_app/registrar-voto'
+import { Route as AppProyectosRouteImport } from './routes/_app/proyectos'
+import { Route as AppPantallaPublicaRouteImport } from './routes/_app/pantalla-publica'
+import { Route as AppInicioRouteImport } from './routes/_app/inicio'
+import { Route as AppAdministracionRouteImport } from './routes/_app/administracion'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppResultadosRoute = AppResultadosRouteImport.update({
+  id: '/resultados',
+  path: '/resultados',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRegistrarVotoRoute = AppRegistrarVotoRouteImport.update({
+  id: '/registrar-voto',
+  path: '/registrar-voto',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProyectosRoute = AppProyectosRouteImport.update({
+  id: '/proyectos',
+  path: '/proyectos',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPantallaPublicaRoute = AppPantallaPublicaRouteImport.update({
+  id: '/pantalla-publica',
+  path: '/pantalla-publica',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInicioRoute = AppInicioRouteImport.update({
+  id: '/inicio',
+  path: '/inicio',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdministracionRoute = AppAdministracionRouteImport.update({
+  id: '/administracion',
+  path: '/administracion',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/administracion': typeof AppAdministracionRoute
+  '/inicio': typeof AppInicioRoute
+  '/pantalla-publica': typeof AppPantallaPublicaRoute
+  '/proyectos': typeof AppProyectosRoute
+  '/registrar-voto': typeof AppRegistrarVotoRoute
+  '/resultados': typeof AppResultadosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/administracion': typeof AppAdministracionRoute
+  '/inicio': typeof AppInicioRoute
+  '/pantalla-publica': typeof AppPantallaPublicaRoute
+  '/proyectos': typeof AppProyectosRoute
+  '/registrar-voto': typeof AppRegistrarVotoRoute
+  '/resultados': typeof AppResultadosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_app/administracion': typeof AppAdministracionRoute
+  '/_app/inicio': typeof AppInicioRoute
+  '/_app/pantalla-publica': typeof AppPantallaPublicaRoute
+  '/_app/proyectos': typeof AppProyectosRoute
+  '/_app/registrar-voto': typeof AppRegistrarVotoRoute
+  '/_app/resultados': typeof AppResultadosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/administracion'
+    | '/inicio'
+    | '/pantalla-publica'
+    | '/proyectos'
+    | '/registrar-voto'
+    | '/resultados'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/administracion'
+    | '/inicio'
+    | '/pantalla-publica'
+    | '/proyectos'
+    | '/registrar-voto'
+    | '/resultados'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/login'
+    | '/_app/administracion'
+    | '/_app/inicio'
+    | '/_app/pantalla-publica'
+    | '/_app/proyectos'
+    | '/_app/registrar-voto'
+    | '/_app/resultados'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +159,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_app/resultados': {
+      id: '/_app/resultados'
+      path: '/resultados'
+      fullPath: '/resultados'
+      preLoaderRoute: typeof AppResultadosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/registrar-voto': {
+      id: '/_app/registrar-voto'
+      path: '/registrar-voto'
+      fullPath: '/registrar-voto'
+      preLoaderRoute: typeof AppRegistrarVotoRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/proyectos': {
+      id: '/_app/proyectos'
+      path: '/proyectos'
+      fullPath: '/proyectos'
+      preLoaderRoute: typeof AppProyectosRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/pantalla-publica': {
+      id: '/_app/pantalla-publica'
+      path: '/pantalla-publica'
+      fullPath: '/pantalla-publica'
+      preLoaderRoute: typeof AppPantallaPublicaRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/inicio': {
+      id: '/_app/inicio'
+      path: '/inicio'
+      fullPath: '/inicio'
+      preLoaderRoute: typeof AppInicioRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/administracion': {
+      id: '/_app/administracion'
+      path: '/administracion'
+      fullPath: '/administracion'
+      preLoaderRoute: typeof AppAdministracionRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAdministracionRoute: typeof AppAdministracionRoute
+  AppInicioRoute: typeof AppInicioRoute
+  AppPantallaPublicaRoute: typeof AppPantallaPublicaRoute
+  AppProyectosRoute: typeof AppProyectosRoute
+  AppRegistrarVotoRoute: typeof AppRegistrarVotoRoute
+  AppResultadosRoute: typeof AppResultadosRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAdministracionRoute: AppAdministracionRoute,
+  AppInicioRoute: AppInicioRoute,
+  AppPantallaPublicaRoute: AppPantallaPublicaRoute,
+  AppProyectosRoute: AppProyectosRoute,
+  AppRegistrarVotoRoute: AppRegistrarVotoRoute,
+  AppResultadosRoute: AppResultadosRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
