@@ -294,14 +294,134 @@ export type Database = {
             referencedRelation: "proyectos"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "votos_proyecto_id_fkey"
+            columns: ["proyecto_id"]
+            isOneToOne: false
+            referencedRelation: "proyectos_publicos"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      proyectos_publicos: {
+        Row: {
+          created_at: string | null
+          descripcion: string | null
+          estado: Database["public"]["Enums"]["proyecto_estado"] | null
+          event_day_id: string | null
+          id: string | null
+          nombre: string | null
+          numero_integrantes: number | null
+          pregrado_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          descripcion?: string | null
+          estado?: Database["public"]["Enums"]["proyecto_estado"] | null
+          event_day_id?: string | null
+          id?: string | null
+          nombre?: string | null
+          numero_integrantes?: number | null
+          pregrado_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          descripcion?: string | null
+          estado?: Database["public"]["Enums"]["proyecto_estado"] | null
+          event_day_id?: string | null
+          id?: string | null
+          nombre?: string | null
+          numero_integrantes?: number | null
+          pregrado_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proyectos_event_day_id_fkey"
+            columns: ["event_day_id"]
+            isOneToOne: false
+            referencedRelation: "event_days"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proyectos_pregrado_id_fkey"
+            columns: ["pregrado_id"]
+            isOneToOne: false
+            referencedRelation: "pregrados"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      votos_publicos: {
+        Row: {
+          created_at: string | null
+          estado: Database["public"]["Enums"]["voto_estado"] | null
+          event_day_id: string | null
+          id: string | null
+          pregrado_id: string | null
+          proyecto_id: string | null
+          tipo_votante: Database["public"]["Enums"]["tipo_votante"] | null
+        }
+        Insert: {
+          created_at?: string | null
+          estado?: Database["public"]["Enums"]["voto_estado"] | null
+          event_day_id?: string | null
+          id?: string | null
+          pregrado_id?: string | null
+          proyecto_id?: string | null
+          tipo_votante?: Database["public"]["Enums"]["tipo_votante"] | null
+        }
+        Update: {
+          created_at?: string | null
+          estado?: Database["public"]["Enums"]["voto_estado"] | null
+          event_day_id?: string | null
+          id?: string | null
+          pregrado_id?: string | null
+          proyecto_id?: string | null
+          tipo_votante?: Database["public"]["Enums"]["tipo_votante"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votos_event_day_id_fkey"
+            columns: ["event_day_id"]
+            isOneToOne: false
+            referencedRelation: "event_days"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votos_pregrado_id_fkey"
+            columns: ["pregrado_id"]
+            isOneToOne: false
+            referencedRelation: "pregrados"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votos_proyecto_id_fkey"
+            columns: ["proyecto_id"]
+            isOneToOne: false
+            referencedRelation: "proyectos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votos_proyecto_id_fkey"
+            columns: ["proyecto_id"]
+            isOneToOne: false
+            referencedRelation: "proyectos_publicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       can_vote: { Args: { _user_id: string }; Returns: boolean }
+      check_voter_duplicate: {
+        Args: { _event_day_id: string; _nombre_norm: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

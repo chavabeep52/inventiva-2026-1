@@ -40,8 +40,8 @@ function InicioPage() {
 
   const load = async () => {
     const [{ count: pc }, { data: votos }, { data: cfg }, { data: days }] = await Promise.all([
-      supabase.from("proyectos").select("id", { count: "exact", head: true }),
-      supabase.from("votos").select("tipo_votante,event_day_id,estado").eq("estado", "valido"),
+      supabase.from("proyectos_publicos").select("id", { count: "exact", head: true }),
+      supabase.from("votos_publicos").select("tipo_votante,event_day_id,estado").eq("estado", "valido"),
       supabase.from("configuracion").select("*").limit(1).maybeSingle(),
       supabase.from("event_days").select("id,orden").order("orden"),
     ]);
@@ -64,11 +64,11 @@ function InicioPage() {
   useEffect(() => {
     load();
     const ch = supabase.channel("inicio-rt")
-      .on("postgres_changes", { event: "*", schema: "public", table: "votos" }, load)
       .on("postgres_changes", { event: "*", schema: "public", table: "proyectos" }, load)
       .on("postgres_changes", { event: "*", schema: "public", table: "configuracion" }, load)
       .subscribe();
-    return () => { supabase.removeChannel(ch); };
+    const interval = setInterval(load, 10000);
+    return () => { supabase.removeChannel(ch); clearInterval(interval); };
   }, []);
 
   return (

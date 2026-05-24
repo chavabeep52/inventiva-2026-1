@@ -57,7 +57,7 @@ function RegistrarVoto() {
   // Load filtered projects when day+pregrado picked
   useEffect(() => {
     if (!form.event_day_id || !form.pregrado_id) { setProjects([]); return; }
-    supabase.from("proyectos")
+    supabase.from("proyectos_publicos")
       .select("id,nombre,estado")
       .eq("event_day_id", form.event_day_id)
       .eq("pregrado_id", form.pregrado_id)
@@ -87,16 +87,13 @@ function RegistrarVoto() {
       toast.error("Completa todos los campos obligatorios.");
       return;
     }
-    // duplicate name check (same day)
+    // duplicate name check (same day) via SECURITY DEFINER RPC
     const norm = form.nombre_votante.trim().toLowerCase();
-    const { data: dup } = await supabase
-      .from("votos")
-      .select("id")
-      .eq("event_day_id", form.event_day_id)
-      .eq("nombre_votante_norm", norm)
-      .eq("estado", "valido")
-      .limit(1);
-    if (dup && dup.length > 0) {
+    const { data: isDup } = await supabase.rpc("check_voter_duplicate", {
+      _event_day_id: form.event_day_id,
+      _nombre_norm: norm,
+    });
+    if (isDup) {
       setDupOpen(true);
       return;
     }

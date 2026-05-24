@@ -23,8 +23,8 @@ function ResultadosPage() {
 
   const load = async () => {
     const [{ data: v }, { data: p }, { data: pr }, { data: ds }] = await Promise.all([
-      supabase.from("votos").select("*"),
-      supabase.from("proyectos").select("*"),
+      supabase.from("votos_publicos").select("*"),
+      supabase.from("proyectos_publicos").select("*"),
       supabase.from("pregrados").select("id,nombre").order("nombre"),
       supabase.from("event_days").select("id,nombre,orden").order("orden"),
     ]);
@@ -34,10 +34,10 @@ function ResultadosPage() {
   useEffect(() => {
     load();
     const ch = supabase.channel("res-rt")
-      .on("postgres_changes", { event: "*", schema: "public", table: "votos" }, load)
       .on("postgres_changes", { event: "*", schema: "public", table: "proyectos" }, load)
       .subscribe();
-    return () => { supabase.removeChannel(ch); };
+    const interval = setInterval(load, 10000);
+    return () => { supabase.removeChannel(ch); clearInterval(interval); };
   }, []);
 
   const dayId = filterDay === "all" ? null : filterDay;
