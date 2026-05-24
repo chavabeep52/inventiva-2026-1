@@ -57,7 +57,7 @@ function RegistrarVoto() {
   // Load filtered projects when day+pregrado picked
   useEffect(() => {
     if (!form.event_day_id || !form.pregrado_id) { setProjects([]); return; }
-    supabase.from("proyectos")
+    supabase.from("proyectos_publicos")
       .select("id,nombre,estado")
       .eq("event_day_id", form.event_day_id)
       .eq("pregrado_id", form.pregrado_id)
