@@ -40,8 +40,8 @@ function InicioPage() {
 
   const load = async () => {
     const [{ count: pc }, { data: votos }, { data: cfg }, { data: days }] = await Promise.all([
-      supabase.from("proyectos").select("id", { count: "exact", head: true }),
-      supabase.from("votos").select("tipo_votante,event_day_id,estado").eq("estado", "valido"),
+      supabase.from("proyectos_publicos").select("id", { count: "exact", head: true }),
+      supabase.from("votos_publicos").select("tipo_votante,event_day_id,estado").eq("estado", "valido"),
       supabase.from("configuracion").select("*").limit(1).maybeSingle(),
       supabase.from("event_days").select("id,orden").order("orden"),
     ]);
