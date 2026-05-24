@@ -68,7 +68,7 @@ function InicioPage() {
       .on("postgres_changes", { event: "*", schema: "public", table: "configuracion" }, load)
       .subscribe();
     const interval = setInterval(load, 10000);
-    return () => { supabase.removeChannel(ch); };
+    return () => { supabase.removeChannel(ch); clearInterval(interval); };
   }, []);
 
   return (
