@@ -20,8 +20,8 @@ function PantallaPublica() {
 
   const load = async () => {
     const [v, p, pr, ds, c] = await Promise.all([
-      supabase.from("votos").select("*"),
-      supabase.from("proyectos").select("*"),
+      supabase.from("votos_publicos").select("*"),
+      supabase.from("proyectos_publicos").select("*"),
       supabase.from("pregrados").select("id,nombre").order("nombre"),
       supabase.from("event_days").select("id,nombre,orden").order("orden"),
       supabase.from("configuracion").select("*").limit(1).maybeSingle(),
@@ -33,10 +33,10 @@ function PantallaPublica() {
   useEffect(() => {
     load();
     const ch = supabase.channel("pub-rt")
-      .on("postgres_changes", { event: "*", schema: "public", table: "votos" }, load)
       .on("postgres_changes", { event: "*", schema: "public", table: "configuracion" }, load)
       .subscribe();
-    return () => { supabase.removeChannel(ch); };
+    const interval = setInterval(load, 10000);
+    return () => { supabase.removeChannel(ch); clearInterval(interval); };
   }, []);
 
   const dayId = filterDay === "all" ? null : filterDay;
