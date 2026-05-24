@@ -64,10 +64,10 @@ function InicioPage() {
   useEffect(() => {
     load();
     const ch = supabase.channel("inicio-rt")
-      .on("postgres_changes", { event: "*", schema: "public", table: "votos" }, load)
       .on("postgres_changes", { event: "*", schema: "public", table: "proyectos" }, load)
       .on("postgres_changes", { event: "*", schema: "public", table: "configuracion" }, load)
       .subscribe();
+    const interval = setInterval(load, 10000);
     return () => { supabase.removeChannel(ch); };
   }, []);
 
