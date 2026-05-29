@@ -1,7 +1,7 @@
 // Weighted scoring for INVENTIVA 2026-1
-// popular: 30%, profesor: 30%, jurado: 40%
+// popular: 45%, profesor: 15%, jurado: 40%
 
-export const WEIGHTS = { popular: 0.30, profesor: 0.30, jurado: 0.40 } as const;
+export const WEIGHTS = { popular: 0.45, profesor: 0.15, jurado: 0.40 } as const;
 
 export type TipoVotante = "popular" | "profesor" | "jurado";
 

@@ -149,7 +149,7 @@ export function exportPDF(ctx: ExportContext, votacionAbierta: boolean) {
   doc.text(`Generada: ${new Date().toLocaleString("es-CO")}`, 14, 26);
   doc.text(`Día exportado: ${dayTag}`, 14, 32);
   doc.text(`Estado de votación: ${votacionAbierta ? "Abierta" : "Cerrada"}`, 14, 38);
-  doc.text("Ponderación: Estudiantes/visitantes 30% · Profesores 30% · Empresas/jurado 40%", 14, 44);
+  doc.text("Ponderación: Estudiantes/visitantes 45% · Profesores 15% · Empresas/jurado 40%", 14, 44);
 
   // Ganadores por pregrado
   doc.setFontSize(13);
