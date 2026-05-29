@@ -79,7 +79,7 @@ function ResultadosPage() {
       <header className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <h1 className="font-display text-3xl font-bold">Resultados en vivo</h1>
-          <p className="text-muted-foreground">Ponderación 30% popular · 30% profesor · 40% jurado.</p>
+          <p className="text-muted-foreground">Ponderación 45% popular · 15% profesor · 40% jurado.</p>
         </div>
         <Badge variant="secondary" className="self-start">Total votos: {totalVotos}</Badge>
       </header>
